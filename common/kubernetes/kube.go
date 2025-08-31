@@ -36,6 +36,27 @@ func NewK8sClient() (*K8sClient, error) {
 	return &K8sClient{clientset: clientset}, nil
 }
 
+func (c *K8sClient) CreateNamespace(name string) (*corev1.Namespace, error) {
+	namespace := &corev1.Namespace{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: name,
+		},
+	}
+	return c.clientset.CoreV1().Namespaces().Create(context.TODO(), namespace, metav1.CreateOptions{})
+}
+
+func (c *K8sClient) DeleteNamespace(name string) error {
+	return c.clientset.CoreV1().Namespaces().Delete(context.TODO(), name, metav1.DeleteOptions{})
+}
+
+func (c *K8sClient) GetNamespace(name string) (*corev1.Namespace, error) {
+	return c.clientset.CoreV1().Namespaces().Get(context.TODO(), name, metav1.GetOptions{})
+}
+
+func (c *K8sClient) ListNamespaces() (*corev1.NamespaceList, error) {
+	return c.clientset.CoreV1().Namespaces().List(context.TODO(), metav1.ListOptions{})
+}
+
 func (c *K8sClient) GetPodLogs(namespace, podName, containerName string, tailLines int64) (string, error) {
 	req := c.clientset.CoreV1().Pods(namespace).GetLogs(podName, &corev1.PodLogOptions{
 		Container: containerName,
