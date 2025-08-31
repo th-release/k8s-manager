@@ -39,7 +39,7 @@ func PodLogRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	if dto.lines <= 0 {
+	if dto.Lines <= 0 {
 		return c.Status(400).JSON(utils.BasicResponse{
 			Success: false,
 			Message: "Please enter a valid lines value.",
@@ -55,7 +55,7 @@ func PodLogRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	logs, err := client.GetPodLogs(dto.Namespace, dto.Name, dto.Container, dto.lines)
+	logs, err := client.GetPodLogs(dto.Namespace, dto.Name, dto.Container, dto.Lines)
 
 	if err != nil {
 		return c.Status(500).JSON(utils.BasicResponse{

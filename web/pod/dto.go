@@ -31,5 +31,5 @@ type PodLogRequestDto struct {
 	Namespace string `json:"namespace" query:"namespace"`
 	Name      string `json:"name" query:"name"`
 	Container string `json:"container" query:"container"`
-	lines     int64  `json:"lines" query:"lines"`
+	Lines     int64  `json:"lines" query:"lines"`
 }
