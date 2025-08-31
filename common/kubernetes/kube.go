@@ -1,6 +1,7 @@
 package kubernetes
 
 import (
+	"bytes"
 	"context"
 
 	"cth.release/common/utils"
@@ -27,6 +28,26 @@ func NewK8sClient() (*K8sClient, error) {
 		return nil, err
 	}
 	return &K8sClient{clientset: clientset}, nil
+}
+
+// Pod 로그 관련 함수
+func (c *K8sClient) GetPodLogs(namespace, podName, containerName string, tailLines *int64) (string, error) {
+	req := c.clientset.CoreV1().Pods(namespace).GetLogs(podName, &corev1.PodLogOptions{
+		Container: containerName,
+		TailLines: tailLines,
+	})
+	logs, err := req.Stream(context.TODO())
+	if err != nil {
+		return "", err
+	}
+	defer logs.Close()
+
+	buf := new(bytes.Buffer)
+	_, err = buf.ReadFrom(logs)
+	if err != nil {
+		return "", err
+	}
+	return buf.String(), nil
 }
 
 func (c *K8sClient) CreatePod(namespace string, pod *corev1.Pod) (*corev1.Pod, error) {
