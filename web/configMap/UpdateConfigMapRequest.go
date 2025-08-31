@@ -34,7 +34,7 @@ func UpdateConfigMapRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	deployment, err := client.UpdateConfigMap(dto.Namespace, &dto.ConfigMap)
+	secret, err := client.UpdateConfigMap(dto.Namespace, &dto.ConfigMap)
 
 	if err != nil {
 		return c.Status(500).JSON(utils.BasicResponse{
@@ -46,6 +46,6 @@ func UpdateConfigMapRequest(c *fiber.Ctx) error {
 	return c.Status(200).JSON(utils.BasicResponse{
 		Success: true,
 		Message: "",
-		Data:    deployment,
+		Data:    secret,
 	})
 }
