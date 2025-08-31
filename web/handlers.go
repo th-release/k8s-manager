@@ -2,6 +2,7 @@ package web
 
 import (
 	"cth.release/common/utils"
+	"cth.release/web/configMap"
 	"cth.release/web/deployment"
 	"cth.release/web/pod"
 	"cth.release/web/service"
@@ -37,7 +38,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	pod.SetupRoutes(api)
 	deployment.SetupRoutes(api)
 	service.SetupRoutes(api)
-
+	configMap.SetupRoutes(api)
 	return app
 }
 
