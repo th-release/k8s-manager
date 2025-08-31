@@ -26,3 +26,9 @@ type DeleteDeploymentRequestDto struct {
 	Namespace string `json:"namespace"`
 	Name      string `json:"name"`
 }
+
+type ScaleDeploymentRequestDto struct {
+	Namespace string `json:"namespace"`
+	Name      string `json:"name"`
+	Replicas  int32  `json:"replicas"`
+}
