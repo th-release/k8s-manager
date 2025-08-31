@@ -109,6 +109,16 @@ func (c *K8sClient) ListDeployments(namespace string) (*appsv1.DeploymentList, e
 	return c.clientset.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
 }
 
+func (c *K8sClient) ScaleDeployment(namespace, name string, replicas int32) error {
+	scale, err := c.clientset.AppsV1().Deployments(namespace).GetScale(context.TODO(), name, metav1.GetOptions{})
+	if err != nil {
+		return err
+	}
+	scale.Spec.Replicas = replicas
+	_, err = c.clientset.AppsV1().Deployments(namespace).UpdateScale(context.TODO(), name, scale, metav1.UpdateOptions{})
+	return err
+}
+
 func (c *K8sClient) CreateConfigMap(namespace string, configMap *corev1.ConfigMap) (*corev1.ConfigMap, error) {
 	return c.clientset.CoreV1().ConfigMaps(namespace).Create(context.TODO(), configMap, metav1.CreateOptions{})
 }
