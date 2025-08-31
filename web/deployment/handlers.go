@@ -14,4 +14,5 @@ func SetupRoutes(app fiber.Router) {
 	deployment.Post("/create", CreateDeploymentRequest)
 	deployment.Put("/update", UpdateDeploymentRequest)
 	deployment.Delete("/delete", DeleteDeploymentRequest)
+	deployment.Put("/scale", ScaleDeployment)
 }
