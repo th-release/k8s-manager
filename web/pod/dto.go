@@ -33,3 +33,10 @@ type PodLogRequestDto struct {
 	Container string `json:"container" query:"container"`
 	Lines     int64  `json:"lines" query:"lines"`
 }
+
+type ExecPodCommandRequestDto struct {
+	Namespace     string   `json:"namespace"`
+	Name          string   `json:"name"`
+	ContainerName string   `json:"containerName"`
+	Command       []string `json:"command"`
+}

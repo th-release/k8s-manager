@@ -15,4 +15,5 @@ func SetupRoutes(app fiber.Router) {
 	pod.Post("/create", CreatePodRequest)
 	pod.Put("/update", UpdatePodRequest)
 	pod.Delete("/delete", DeletePodRequest)
+	pod.Post("/exec", ExecPodCommandRequest)
 }
