@@ -9,6 +9,7 @@ func podMiddleware(c *fiber.Ctx) error {
 func SetupRoutes(app fiber.Router) {
 	pod := app.Group("/pod", podMiddleware)
 
+	pod.Get("/log", PodLogRequest)
 	pod.Get("/list", ListPodRequest)
 	pod.Get("/detail/:name", DetailPodRequest)
 	pod.Post("/create", CreatePodRequest)

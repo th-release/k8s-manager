@@ -5,11 +5,11 @@ import (
 )
 
 type ListServiceRequestDto struct {
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace" query:"namespace"`
 }
 
 type DetailServiceRequestDto struct {
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace" query:"namespace"`
 }
 
 type CreateServiceRequestDto struct {

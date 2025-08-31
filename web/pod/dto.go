@@ -5,11 +5,11 @@ import (
 )
 
 type ListPodRequestDto struct {
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace" query:"namespace"`
 }
 
 type DetailPodRequestDto struct {
-	Namespace string `json:"namespace"`
+	Namespace string `json:"namespace" query:"namespace"`
 }
 
 type CreatePodRequestDto struct {
@@ -25,4 +25,11 @@ type UpdatePodRequestDto struct {
 type DeletePodRequestDto struct {
 	Namespace string `json:"namespace"`
 	Name      string `json:"name"`
+}
+
+type PodLogRequestDto struct {
+	Namespace string `json:"namespace" query:"namespace"`
+	Name      string `json:"name" query:"name"`
+	Container string `json:"container" query:"container"`
+	lines     int64  `json:"lines" query:"lines"`
 }
