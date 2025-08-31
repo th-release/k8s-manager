@@ -5,6 +5,7 @@ import (
 	"cth.release/web/configMap"
 	"cth.release/web/deployment"
 	"cth.release/web/pod"
+	"cth.release/web/secret"
 	"cth.release/web/service"
 
 	"github.com/gofiber/fiber/v2"
@@ -39,6 +40,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	deployment.SetupRoutes(api)
 	service.SetupRoutes(api)
 	configMap.SetupRoutes(api)
+	secret.SetupRoutes(api)
 	return app
 }
 
