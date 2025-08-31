@@ -4,6 +4,7 @@ import (
 	"cth.release/common/utils"
 	"cth.release/web/deployment"
 	"cth.release/web/pod"
+	"cth.release/web/service"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -35,6 +36,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 
 	pod.SetupRoutes(api)
 	deployment.SetupRoutes(api)
+	service.SetupRoutes(api)
 
 	return app
 }
