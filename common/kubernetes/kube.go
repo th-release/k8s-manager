@@ -30,10 +30,10 @@ func NewK8sClient() (*K8sClient, error) {
 	return &K8sClient{clientset: clientset}, nil
 }
 
-func (c *K8sClient) GetPodLogs(namespace, podName, containerName string, tailLines *int64) (string, error) {
+func (c *K8sClient) GetPodLogs(namespace, podName, containerName string, tailLines int64) (string, error) {
 	req := c.clientset.CoreV1().Pods(namespace).GetLogs(podName, &corev1.PodLogOptions{
 		Container: containerName,
-		TailLines: tailLines,
+		TailLines: &tailLines,
 	})
 	logs, err := req.Stream(context.TODO())
 	if err != nil {
