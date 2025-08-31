@@ -7,7 +7,7 @@ func ConfigMapMiddleware(c *fiber.Ctx) error {
 }
 
 func SetupRoutes(app fiber.Router) {
-	deployment := app.Group("/ConfigMap", ConfigMapMiddleware)
+	deployment := app.Group("/configMap", ConfigMapMiddleware)
 
 	deployment.Get("/list", ListConfigMapRequest)
 	deployment.Get("/detail/:name", DetailConfigMapRequest)
