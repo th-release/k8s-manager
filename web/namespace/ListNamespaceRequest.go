@@ -1,4 +1,4 @@
-package configMap
+package namespace
 
 import (
 	"strings"
@@ -8,8 +8,8 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func DetailConfigMapRequest(c *fiber.Ctx) error {
-	var dto DetailConfigMapRequestDto
+func ListNamespaceRequest(c *fiber.Ctx) error {
+	var dto ListNamespaceRequestDto
 	if err := c.QueryParser(&dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(utils.BasicResponse{
 			Success: false,
@@ -25,14 +25,6 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	name := c.Params("name")
-	if len(strings.Trim(name, "")) <= 0 {
-		return c.Status(400).JSON(utils.BasicResponse{
-			Success: false,
-			Message: "Please enter a valid name value.",
-		})
-	}
-
 	client, err := kubernetes.NewK8sClient()
 
 	if err != nil {
@@ -42,7 +34,7 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	configMap, err := client.GetConfigMap(dto.Namespace, name)
+	list, err := client.ListNamespaces()
 
 	if err != nil {
 		return c.Status(500).JSON(utils.BasicResponse{
@@ -54,6 +46,6 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 	return c.Status(200).JSON(utils.BasicResponse{
 		Success: true,
 		Message: "",
-		Data:    configMap,
+		Data:    list,
 	})
 }

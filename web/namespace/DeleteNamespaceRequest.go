@@ -1,4 +1,4 @@
-package configMap
+package namespace
 
 import (
 	"strings"
@@ -8,9 +8,9 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func DetailConfigMapRequest(c *fiber.Ctx) error {
-	var dto DetailConfigMapRequestDto
-	if err := c.QueryParser(&dto); err != nil {
+func DeleteNamespaceRequest(c *fiber.Ctx) error {
+	var dto DeleteNamespaceRequestDto
+	if err := c.BodyParser(&dto); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(utils.BasicResponse{
 			Success: false,
 			Message: err.Error(),
@@ -25,8 +25,7 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	name := c.Params("name")
-	if len(strings.Trim(name, "")) <= 0 {
+	if len(strings.Trim(dto.Name, "")) <= 0 {
 		return c.Status(400).JSON(utils.BasicResponse{
 			Success: false,
 			Message: "Please enter a valid name value.",
@@ -42,8 +41,7 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 		})
 	}
 
-	configMap, err := client.GetConfigMap(dto.Namespace, name)
-
+	err = client.DeleteNamespace(dto.Namespace)
 	if err != nil {
 		return c.Status(500).JSON(utils.BasicResponse{
 			Success: false,
@@ -54,6 +52,5 @@ func DetailConfigMapRequest(c *fiber.Ctx) error {
 	return c.Status(200).JSON(utils.BasicResponse{
 		Success: true,
 		Message: "",
-		Data:    configMap,
 	})
 }

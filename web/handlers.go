@@ -39,6 +39,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	api := app.Group("/api", EmptyMiddleware)
 	api.Get("/health", HealthHandler)
 
+	namespace.SetupRoutes(api)
 	pod.SetupRoutes(api)
 	deployment.SetupRoutes(api)
 	service.SetupRoutes(api)
