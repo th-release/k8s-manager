@@ -7,7 +7,7 @@ func deploymentMiddleware(c *fiber.Ctx) error {
 }
 
 func SetupRoutes(app fiber.Router) {
-	deployment := app.Group("/deployment")
+	deployment := app.Group("/deployment", deploymentMiddleware)
 
 	deployment.Get("/list", ListDeploymentRequest)
 	deployment.Get("/detail/:name", DetailDeploymentRequest)
