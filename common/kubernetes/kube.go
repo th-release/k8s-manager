@@ -3,6 +3,7 @@ package kubernetes
 import (
 	"bytes"
 	"context"
+	"fmt"
 
 	"cth.release/common/utils"
 	appsv1 "k8s.io/api/apps/v1"
@@ -156,4 +157,10 @@ func (c *K8sClient) GetSecret(namespace, name string) (*corev1.Secret, error) {
 
 func (c *K8sClient) ListSecrets(namespace string) (*corev1.SecretList, error) {
 	return c.clientset.CoreV1().Secrets(namespace).List(context.TODO(), metav1.ListOptions{})
+}
+
+func (c *K8sClient) ListEvents(namespace, resourceName string) (*corev1.EventList, error) {
+	return c.clientset.CoreV1().Events(namespace).List(context.TODO(), metav1.ListOptions{
+		FieldSelector: fmt.Sprintf("involvedObject.name=%s", resourceName),
+	})
 }
