@@ -8,13 +8,18 @@ import (
 	"cth.release/common/utils"
 	appsv1 "k8s.io/api/apps/v1"
 	corev1 "k8s.io/api/core/v1"
+	networkingv1 "k8s.io/api/networking/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/client-go/applyconfigurations/core/v1"
 	"k8s.io/client-go/kubernetes"
+	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
+	"k8s.io/client-go/tools/remotecommand"
 )
 
 type K8sClient struct {
 	clientset *kubernetes.Clientset
+	config    *rest.Config // Ensure config field is defined
 }
 
 func NewK8sClient() (*K8sClient, error) {
@@ -68,6 +73,37 @@ func (c *K8sClient) GetPod(namespace, name string) (*corev1.Pod, error) {
 
 func (c *K8sClient) ListPods(namespace string) (*corev1.PodList, error) {
 	return c.clientset.CoreV1().Pods(namespace).List(context.TODO(), metav1.ListOptions{})
+}
+
+func (c *K8sClient) ExecPodCommand(namespace, podName, containerName string, command []string) (string, string, error) {
+	req := c.clientset.CoreV1().RESTClient().Post().
+		Namespace(namespace).
+		Resource("pods").
+		Name(podName).
+		SubResource("exec").
+		VersionedParams(&corev1.PodExecOptions{
+			Command:   command,
+			Container: containerName,
+			Stdin:     false,
+			Stdout:    true,
+			Stderr:    true,
+			TTY:       false,
+		}, metav1.ParameterCodec)
+
+	exec, err := remotecommand.NewSPDYExecutor(c.config, "POST", req.URL())
+	if err != nil {
+		return "", "", err
+	}
+
+	var stdout, stderr bytes.Buffer
+	err = exec.StreamWithContext(context.TODO(), remotecommand.StreamOptions{
+		Stdout: &stdout,
+		Stderr: &stderr,
+	})
+	if err != nil {
+		return "", "", err
+	}
+	return stdout.String(), stderr.String(), nil
 }
 
 func (c *K8sClient) CreateService(namespace string, service *corev1.Service) (*corev1.Service, error) {
@@ -163,4 +199,28 @@ func (c *K8sClient) ListEvents(namespace, resourceName string) (*corev1.EventLis
 	return c.clientset.CoreV1().Events(namespace).List(context.TODO(), metav1.ListOptions{
 		FieldSelector: fmt.Sprintf("involvedObject.name=%s", resourceName),
 	})
+}
+
+func (c *K8sClient) CreateIngress(namespace string, ingress *networkingv1.Ingress) (*networkingv1.Ingress, error) {
+	return c.clientset.NetworkingV1().Ingresses(namespace).Create(context.TODO(), ingress, metav1.CreateOptions{})
+}
+
+func (c *K8sClient) UpdateIngress(namespace string, ingress *networkingv1.Ingress) (*networkingv1.Ingress, error) {
+	return c.clientset.NetworkingV1().Ingresses(namespace).Update(context.TODO(), ingress, metav1.UpdateOptions{})
+}
+
+func (c *K8sClient) DeleteIngress(namespace, name string) error {
+	return c.clientset.NetworkingV1().Ingresses(namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
+}
+
+func (c *K8sClient) GetIngress(namespace, name string) (*networkingv1.Ingress, error) {
+	return c.clientset.NetworkingV1().Ingresses(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+}
+
+func (c *K8sClient) ListIngresses(namespace string) (*networkingv1.IngressList, error) {
+	return c.clientset.NetworkingV1().Ingresses(namespace).List(context.TODO(), metav1.ListOptions{})
+}
+
+func (c *K8sClient) ApplyNamespace(namespace string) (result *corev1.Service, err error) {
+	return c.clientset.CoreV1().Services(namespace).Apply(context.TODO(), &v1.ServiceApplyConfiguration{}, metav1.ApplyOptions{})
 }
