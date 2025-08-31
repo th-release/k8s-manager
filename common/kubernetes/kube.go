@@ -88,3 +88,42 @@ func (c *K8sClient) GetDeployment(namespace, name string) (*appsv1.Deployment, e
 func (c *K8sClient) ListDeployments(namespace string) (*appsv1.DeploymentList, error) {
 	return c.clientset.AppsV1().Deployments(namespace).List(context.TODO(), metav1.ListOptions{})
 }
+
+func (c *K8sClient) CreateConfigMap(namespace string, configMap *corev1.ConfigMap) (*corev1.ConfigMap, error) {
+	return c.clientset.CoreV1().ConfigMaps(namespace).Create(context.TODO(), configMap, metav1.CreateOptions{})
+}
+
+func (c *K8sClient) UpdateConfigMap(namespace string, configMap *corev1.ConfigMap) (*corev1.ConfigMap, error) {
+	return c.clientset.CoreV1().ConfigMaps(namespace).Update(context.TODO(), configMap, metav1.UpdateOptions{})
+}
+
+func (c *K8sClient) DeleteConfigMap(namespace, name string) error {
+	return c.clientset.CoreV1().ConfigMaps(namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
+}
+
+func (c *K8sClient) GetConfigMap(namespace, name string) (*corev1.ConfigMap, error) {
+	return c.clientset.CoreV1().ConfigMaps(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+}
+
+func (c *K8sClient) ListConfigMaps(namespace string) (*corev1.ConfigMapList, error) {
+	return c.clientset.CoreV1().ConfigMaps(namespace).List(context.TODO(), metav1.ListOptions{})
+}
+func (c *K8sClient) CreateSecret(namespace string, secret *corev1.Secret) (*corev1.Secret, error) {
+	return c.clientset.CoreV1().Secrets(namespace).Create(context.TODO(), secret, metav1.CreateOptions{})
+}
+
+func (c *K8sClient) UpdateSecret(namespace string, secret *corev1.Secret) (*corev1.Secret, error) {
+	return c.clientset.CoreV1().Secrets(namespace).Update(context.TODO(), secret, metav1.UpdateOptions{})
+}
+
+func (c *K8sClient) DeleteSecret(namespace, name string) error {
+	return c.clientset.CoreV1().Secrets(namespace).Delete(context.TODO(), name, metav1.DeleteOptions{})
+}
+
+func (c *K8sClient) GetSecret(namespace, name string) (*corev1.Secret, error) {
+	return c.clientset.CoreV1().Secrets(namespace).Get(context.TODO(), name, metav1.GetOptions{})
+}
+
+func (c *K8sClient) ListSecrets(namespace string) (*corev1.SecretList, error) {
+	return c.clientset.CoreV1().Secrets(namespace).List(context.TODO(), metav1.ListOptions{})
+}
