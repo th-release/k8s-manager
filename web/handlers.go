@@ -2,6 +2,7 @@ package web
 
 import (
 	"cth.release/common/utils"
+	"cth.release/web/deployment"
 	"cth.release/web/pod"
 
 	"github.com/gofiber/fiber/v2"
@@ -33,6 +34,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	api.Get("/health", HealthHandler)
 
 	pod.SetupRoutes(api)
+	deployment.SetupRoutes(api)
 
 	return app
 }
