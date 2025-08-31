@@ -1,11 +1,39 @@
 package web
 
-import "github.com/gofiber/fiber/v2"
+import (
+	"cth.release/common/utils"
+	"cth.release/web/pod"
 
-func SetupRoutes(app *fiber.App) *fiber.App {
+	"github.com/gofiber/fiber/v2"
+)
+
+type ServerConfig struct {
+	App    *fiber.App
+	Config utils.Config
+}
+
+func InitServer(config *utils.Config) *ServerConfig {
+	app := fiber.New()
+
+	if config == nil {
+		return nil
+	}
+
+	server := &ServerConfig{
+		App:    app,
+		Config: *config,
+	}
+
+	server.SetupRoutes(app)
+	return server
+}
+
+func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	api := app.Group("/api", EmptyMiddleware)
-
 	api.Get("/health", HealthHandler)
+
+	pod.SetupRoutes(api)
+
 	return app
 }
 
@@ -14,5 +42,5 @@ func EmptyMiddleware(c *fiber.Ctx) error {
 }
 
 func HealthHandler(c *fiber.Ctx) error {
-	return c.SendString("Hello World")
+	return c.SendString("200")
 }
