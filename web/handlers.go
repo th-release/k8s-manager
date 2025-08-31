@@ -4,6 +4,7 @@ import (
 	"cth.release/common/utils"
 	"cth.release/web/configMap"
 	"cth.release/web/deployment"
+	"cth.release/web/namespace"
 	"cth.release/web/pod"
 	"cth.release/web/secret"
 	"cth.release/web/service"
@@ -41,6 +42,7 @@ func (s *ServerConfig) SetupRoutes(app *fiber.App) *fiber.App {
 	service.SetupRoutes(api)
 	configMap.SetupRoutes(api)
 	secret.SetupRoutes(api)
+	namespace.SetupRoutes(api)
 	return app
 }
 
