@@ -7,11 +7,11 @@ func ConfigMapMiddleware(c *fiber.Ctx) error {
 }
 
 func SetupRoutes(app fiber.Router) {
-	secret := app.Group("/configMap", ConfigMapMiddleware)
+	configMap := app.Group("/configMap", ConfigMapMiddleware)
 
-	secret.Get("/list", ListConfigMapRequest)
-	secret.Get("/detail/:name", DetailConfigMapRequest)
-	secret.Post("/create", CreateConfigMapRequest)
-	secret.Put("/update", UpdateConfigMapRequest)
-	secret.Delete("/delete", DeleteConfigMapRequest)
+	configMap.Get("/list", ListConfigMapRequest)
+	configMap.Get("/detail/:name", DetailConfigMapRequest)
+	configMap.Post("/create", CreateConfigMapRequest)
+	configMap.Put("/update", UpdateConfigMapRequest)
+	configMap.Delete("/delete", DeleteConfigMapRequest)
 }
