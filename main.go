@@ -13,7 +13,7 @@ import (
 
 func main() {
 	port := flag.String("PORT", "8080", "PORT Integer Default: 8080")
-	kubeConfig := flag.String("PORT", "~/.kube/config", "kubernetes config path Default: ~/.kube/config")
+	kubeConfig := flag.String("KUBE", "~/.kube/config", "kubernetes config path Default: ~/.kube/config")
 
 	flag.Parse()
 
