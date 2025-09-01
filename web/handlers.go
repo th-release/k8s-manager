@@ -20,7 +20,9 @@ type ServerConfig struct {
 }
 
 func InitServer(config *utils.Config) *ServerConfig {
-	app := fiber.New()
+	app := fiber.New(fiber.Config{
+		DisableStartupMessage: true,
+	})
 
 	if config == nil {
 		return nil
