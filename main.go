@@ -40,6 +40,19 @@ func main() {
 		log.Fatalf("Error saving config : %s", err.Error())
 	}
 
+	log.Println("Kubernetes Manager")
+
+	fmt.Println(" _   __        _                               _             ")
+	fmt.Println("| | / /       | |                             | |             ")
+	fmt.Println("| |/ /  _   _ | |__    ___  _ __  _ __    ___ | |_   ___  ___ ")
+	fmt.Println("|    \\ | | | || '_ \\  / _ \\| '__|| '_ \\  / _ \\| __| / _ \\/ __|")
+	fmt.Println("| |\\  \\| |_| || |_) ||  __/| |   | | | ||  __/| |_ |  __/\\__ \\")
+	fmt.Println("\\_| \\_/ \\__,_||_.__/  \\___||_|   |_| |_| \\___| \\__| \\___||___/	")
+
+	fmt.Println()
+
+	fmt.Println("Kubernetes Manager On Port: " + *port)
+
 	config := utils.GetConfig()
 
 	app := web.InitServer(config)
