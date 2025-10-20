@@ -14,11 +14,13 @@ type DetailPodRequestDto struct {
 
 type CreatePodRequestDto struct {
 	Namespace string        `json:"namespace"`
+	Name      string        `json:"name"`
 	PodSpec   types.PodSpec `json:"podSpec"`
 }
 
 type UpdatePodRequestDto struct {
 	Namespace string        `json:"namespace"`
+	Name      string        `json:"name"`
 	PodSpec   types.PodSpec `json:"podSpec"`
 }
 

@@ -7,6 +7,7 @@ import (
 	"cth.release/common/utils"
 	"github.com/gofiber/fiber/v2"
 	v1 "k8s.io/api/core/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func UpdatePodRequest(c *fiber.Ctx) error {
@@ -36,6 +37,9 @@ func UpdatePodRequest(c *fiber.Ctx) error {
 	}
 
 	pod, err := client.UpdatePod(dto.Namespace, &v1.Pod{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: dto.Name,
+		},
 		Spec: dto.PodSpec,
 	})
 
