@@ -7,6 +7,7 @@ import (
 	"cth.release/common/utils"
 	"github.com/gofiber/fiber/v2"
 	v1 "k8s.io/api/apps/v1"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
 func UpdateDeploymentRequest(c *fiber.Ctx) error {
@@ -36,6 +37,9 @@ func UpdateDeploymentRequest(c *fiber.Ctx) error {
 	}
 
 	deployment, err := client.UpdateDeployment(dto.Namespace, &v1.Deployment{
+		ObjectMeta: metav1.ObjectMeta{
+			Name: dto.Name,
+		},
 		Spec: dto.DeploymentSpec,
 	})
 

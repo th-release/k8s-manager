@@ -14,11 +14,13 @@ type DetailServiceRequestDto struct {
 
 type CreateServiceRequestDto struct {
 	Namespace   string            `json:"namespace"`
+	Name        string            `json:"name"`
 	ServiceSpec types.ServiceSpec `json:"serviceSpec"`
 }
 
 type UpdateServiceRequestDto struct {
 	Namespace   string            `json:"namespace"`
+	Name        string            `json:"name"`
 	ServiceSpec types.ServiceSpec `json:"serviceSpec"`
 }
 

@@ -14,11 +14,13 @@ type DetailDeploymentRequestDto struct {
 
 type CreateDeploymentRequestDto struct {
 	Namespace      string               `json:"namespace"`
+	Name           string               `json:"name"`
 	DeploymentSpec types.DeploymentSpec `json:"deploymentSpec"`
 }
 
 type UpdateDeploymentRequestDto struct {
 	Namespace      string               `json:"namespace"`
+	Name           string               `json:"name"`
 	DeploymentSpec types.DeploymentSpec `json:"deploymentSpec"`
 }
 
