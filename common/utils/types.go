@@ -7,7 +7,7 @@ type BasicResponse struct {
 }
 
 type Config struct {
-	Port       int    `json:"PORT"`
+	Port       string `json:"PORT"`
 	KubeConfig string `json:"KUBE-CONFIG"`
 }
 
