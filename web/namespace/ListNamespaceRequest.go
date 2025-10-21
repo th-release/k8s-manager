@@ -12,7 +12,7 @@ func ListNamespaceRequest(c *fiber.Ctx) error {
 	if err != nil {
 		return c.Status(500).JSON(utils.BasicResponse{
 			Success: false,
-			Message: "A problem occurred while connecting to Kubernetes.",
+			Message: "A problem occurred while connecting to Kubernetes. : " + err.Error(),
 		})
 	}
 
