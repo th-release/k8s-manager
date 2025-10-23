@@ -1,5 +1,5 @@
 services:
-  gateway:
+  kube-manager:
     image: k8s-manager:1.0.0
     restart: always
     environment:
