@@ -1,0 +1,15 @@
+services:
+  gateway:
+    image: k8s-manager:1.0.0
+    restart: always
+    environment:
+      - PORT=8080
+      - KUBE_CONFIG=/app/config
+    ports:
+      - "60000:8080/tcp"
+    logging:
+      options:
+        max-size: "1024m"
+        max-file: "5"
+    volumes:
+      - ./Users/mac/.kube/config:/app/config
