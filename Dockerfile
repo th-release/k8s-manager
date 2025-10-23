@@ -1,13 +1,13 @@
-FROM golang:alpine
+FROM golang:alpine AS builder
 WORKDIR /app
-COPY . .
+COPY go.mod go.sum ./
 RUN apk add --no-cache git
 RUN go mod download
+COPY . .
 RUN go build -o k8s-manager
-EXPOSE ${PORT:-8080}
 
-COPY ./k8s-manager /app/k8s-manager
-
+FROM alpine:latest
 WORKDIR /app
-
-CMD ["sh" "-c" "./k8s-manager"]
+COPY --from=builder /app/k8s-manager .
+EXPOSE ${PORT:-8080}
+CMD ["./k8s-manager"]
